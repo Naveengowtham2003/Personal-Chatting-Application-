@@ -1,0 +1,40 @@
+{% extends 'main.html' %} {% block content %}
+<style>
+  .edit-profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  .edit-profile-container h2 {
+    text-align: center;
+  }
+  .edit-profile-container form {
+    display: grid;
+    gap: 20px;
+  }
+  .edit-profile-container button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .edit-profile-container button:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="edit-profile-container">
+  <h2>Edit Profile</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

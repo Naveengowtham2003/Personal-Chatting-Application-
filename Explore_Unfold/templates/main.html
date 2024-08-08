@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore&unfold</title>
+    <style>
+      body {
+        background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+
+        font-family: Arial, sans-serif;
+        margin-top: 60px; /* Add margin to avoid content hiding behind navbar */
+      }
+
+      .messages {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px;
+        color: #333;
+      }
+
+      .messages li {
+        background: #fff;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Additional styling for block content */
+      .block-content {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %} {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="block-content">{% block content %}{% endblock %}</div>
+  </body>
+</html>

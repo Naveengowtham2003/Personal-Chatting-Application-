@@ -1,0 +1,190 @@
+{% extends 'main.html' %} {% block content %}
+<style>
+  /* Global Styles */
+  body {
+    font-family: "Arial", sans-serif;
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .room-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    width: 100%;
+  }
+
+  h1,
+  h3 {
+    color: #2c3e50;
+  }
+
+  p {
+    color: #34495e;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #eaeaea;
+    margin: 20px 0;
+  }
+
+  /* Room Styles */
+  .room-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .room-info h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+
+  .room-info p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+
+  /* Conversation Styles */
+  .conversation {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .conversation h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+
+  .conversation div {
+    padding: 10px 0;
+  }
+
+  .conversation small {
+    color: #7f8c8d;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .conversation p {
+    font-size: 1.1em;
+  }
+
+  .comment-form {
+    margin-top: 20px;
+  }
+
+  .comment-form input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    font-size: 1em;
+  }
+
+  .comment-form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  /* Participants Styles */
+  .participants {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .participants h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+
+  .participants div {
+    padding: 10px 0;
+  }
+
+  .participants p {
+    font-size: 1.1em;
+  }
+
+  .delete-link {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .delete-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container">
+  <div class="room-container">
+    <div class="room-info">
+      <h1>{{ room.name }}</h1>
+      <p>{{ room.description }}</p>
+
+      <div class="conversation">
+        <h3>Conversation</h3>
+        <hr />
+        {% for message in room_messages %}
+        <div>
+          {% if request.user == message.user %}
+          <a class="delete-link" href="{% url 'delete-message' message.id %}"
+            >Delete</a
+          >
+          {% endif %}
+          <small>@{{ message.user }} {{ message.created|timesince }} ago</small>
+          <p>{{ message.body }}</p>
+          <hr />
+        </div>
+        {% endfor %}
+      </div>
+
+      {% if request.user.is_authenticated %}
+      <div class="comment-form">
+        <form method="POST">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="body"
+            placeholder="Type your message here..."
+          />
+          <input type="submit" value="Send" />
+        </form>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="participants">
+      <h3>Participants</h3>
+      <hr />
+      {% for user in participants %}
+      <div>
+        <p>@{{ user.username }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

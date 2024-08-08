@@ -1,0 +1,114 @@
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    background-image: linear-gradient(
+      to right,
+      #eea2a2 0%,
+      #bbc1bf 19%,
+      #57c6e1 42%,
+      #b49fda 79%,
+      #7ac5d8 100%
+    );
+    margin: 0;
+    padding: 0;
+  }
+
+  .browse-topic-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .browse-topic-container h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .browse-topic-container hr {
+    border: none;
+    height: 1px;
+    background-color: #eaeaea;
+    margin: 20px 0;
+  }
+
+  .browse-topic-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .browse-topic-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .browse-topic-link:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+  }
+
+  .browse-topic-link:active {
+    transform: scale(0.9);
+  }
+
+  .room-count {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    margin: 20px 0;
+  }
+
+  .create-room-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .create-room-link:hover {
+    background-color: #229954;
+    transform: scale(1.1);
+  }
+
+  .create-room-link:active {
+    transform: scale(0.9);
+  }
+</style>
+
+<div class="browse-topic-container">
+  <h2>Browse Topic</h2>
+  <hr />
+
+  <div class="browse-topic-links">
+    <div>
+      <a href="{% url 'home' %}" class="browse-topic-link">All</a>
+    </div>
+
+    {% for topic in topics %}
+    <div>
+      <a
+        href="{% url 'home' %}?q={{ topic.name|urlencode }}"
+        class="browse-topic-link"
+        >{{ topic.name }}</a
+      >
+    </div>
+    {% endfor %}
+  </div>
+
+  <h4 class="room-count">Available Rooms = {{ room_count }}</h4>
+  <a href="{% url 'create-room' %}" class="create-room-link">Create Room</a>
+</div>

@@ -1,0 +1,139 @@
+{% extends 'main.html' %} {% block content %}
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    background-image: linear-gradient(-225deg, #fffeff 0%, #d7fffe 100%);
+    margin: 0;
+    padding: 0;
+  }
+
+  .home-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar,
+  .feed,
+  .activity {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slide-in 0.5s ease-in-out;
+  }
+
+  .feed {
+    animation: fade-in 1s ease-in-out;
+  }
+
+  .activity {
+    animation: slide-in 0.5s ease-in-out;
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Topic Component Styling */
+  .topic-component {
+    margin-bottom: 20px;
+  }
+
+  .topic-component h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .topic-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .topic-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .topic-link:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+  }
+
+  .topic-link:active {
+    transform: scale(0.9);
+  }
+
+  /* Activity Component Styling */
+  .activity-component h3 {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ecf0f1;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .activity-item:hover {
+    background-color: #bdc3c7;
+    transform: scale(1.05);
+  }
+
+  .activity-item p {
+    margin: 0;
+    font-size: 1.1em;
+  }
+</style>
+
+<div class="home-container">
+  <div class="sidebar">{% include 'base/topic_component.html' %}</div>
+
+  <div class="feed">{% include 'base/feed_component.html' %}</div>
+
+  <div class="activity">{% include 'base/activity_component.html' %}</div>
+</div>
+{% endblock %}

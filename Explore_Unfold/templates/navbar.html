@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navigation Bar</title>
+    <style>
+      /* Reset some basic styles */
+      body,
+      h1,
+      h2,
+      form,
+      input,
+      nav,
+      a,
+      p {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      /* Body styling */
+      body {
+        background-color: #f7f7f7;
+        color: #333;
+      }
+
+      /* Navigation bar styling */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 15px 30px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        background-color: #f1f1f1;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .navbar a:hover {
+        color: #007bff;
+      }
+
+      .logo img {
+        width: 90px; /* Adjust size as needed */
+        height: auto; /* Maintain aspect ratio */
+      }
+
+      .search-form {
+        flex-grow: 1;
+        margin: 0 20px;
+        display: flex;
+        justify-content: center;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        outline: none;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+      }
+
+      .auth-links {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-left: auto;
+      }
+
+      .auth-links .dropdown {
+        position: relative;
+      }
+
+      .auth-links .dropbtn {
+        background: none;
+        border: none;
+        color: #333;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        border-radius: 5px;
+        right: 0;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .auth-links:hover .dropdown-content {
+        display: block;
+      }
+
+      /* Additional styling for hr */
+      hr {
+        border: none;
+        height: 1px;
+        background-color: #ddd;
+        margin: 10px 0;
+      }
+
+      .logo h2 {
+        color: #333; /* Dark text color */
+        font-size: 24px;
+      }
+
+      /* Animation for navbar color change on scroll */
+      .navbar.scrolled {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Link styling */
+      a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      a:hover {
+        color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <a href="/" class="logo">
+        <img
+          src="{% static 'images/EU_NO_background.png' %}"
+          alt="Explore & Unfold Logo"
+        />
+      </a>
+
+      <form method="GET" action="{% url 'home' %}" class="search-form">
+        <input
+          type="text"
+          name="q"
+          placeholder="Enter the room name"
+          class="search-input"
+        />
+      </form>
+
+      <div class="auth-links">
+        {% if request.user.is_authenticated %}
+        <div class="dropdown">
+          <button class="dropbtn"><h2>{{ request.user }}</h2></button>
+          <div class="dropdown-content">
+            <a href="{% url 'user-profile' request.user.id %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+    <hr />
+    {% if request.GET.logged_in == 'true' %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        alert("Hello {{ request.user }}");
+      });
+    </script>
+    {% endif %}
+    <script>
+      // Change navbar background on scroll
+      window.addEventListener("scroll", function () {
+        var navbar = document.getElementById("navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+  </body>
+</html>

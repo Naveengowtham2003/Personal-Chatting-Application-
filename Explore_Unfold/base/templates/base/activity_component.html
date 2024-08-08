@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recent Activity</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .activity-container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        font-size: 24px;
+        color: #555;
+        margin-bottom: 20px;
+      }
+
+      .message-card {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .user-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .user-link:hover {
+        text-decoration: underline;
+      }
+
+      .time-ago {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .message-body {
+        margin-bottom: 10px;
+      }
+
+      .reply-info {
+        display: block;
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 5px;
+      }
+
+      .message-content {
+        font-size: 16px;
+        color: #333;
+      }
+
+      .message-footer {
+        text-align: right;
+      }
+
+      .delete-link {
+        color: #dc3545;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .delete-link:hover {
+        text-decoration: underline;
+      }
+
+      hr {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="activity-container">
+      <h2>Recent Activity</h2>
+      <hr />
+      {% for message in room_messages %}
+      <div class="message-card">
+        <div class="message-header">
+          <a href="{% url 'user-profile' message.user.id %}" class="user-link"
+            >@{{ message.user }}</a
+          >
+          <span class="time-ago">{{ message.created|timesince }} ago</span>
+        </div>
+        <div class="message-body">
+          <span class="reply-info">replied to "{{ message.room }}"</span>
+          <p class="message-content">{{ message }}</p>
+        </div>
+        {% if request.user == message.user %}
+        <div class="message-footer">
+          <a href="{% url 'delete-message' message.id %}" class="delete-link"
+            >Delete</a
+          >
+        </div>
+        {% endif %}
+        <hr />
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

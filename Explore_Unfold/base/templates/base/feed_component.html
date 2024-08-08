@@ -1,0 +1,106 @@
+{% for room in rooms %}
+<div class="room-card">
+  <div class="room-actions">
+    {% if request.user == room.host %}
+
+    <a href="{% url 'delete-room' room.id %}" class="room-action-link"
+      >Delete</a
+    >
+    {% endif %}
+  </div>
+  <div class="room-info">
+    <a href="{% url 'user-profile' room.host.id %}" class="room-host"
+      >@{{ room.host.username }}</a
+    >
+    <h5 class="room-title">
+      {{ room.id }} --
+      <a href="{% url 'room' room.id %}" class="room-link">{{ room.name }}</a>
+    </h5>
+    <small class="room-topic">{{ room.topic.name }}</small>
+  </div>
+  <hr />
+</div>
+{% endfor %}
+
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+    margin: 0;
+    padding: 0;
+  }
+
+  .room-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .room-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .room-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .room-action-link {
+    color: #e74c3c;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .room-action-link:hover {
+    color: #c0392b;
+    transform: scale(1.1);
+  }
+
+  .room-info {
+    margin-top: 10px;
+  }
+
+  .room-host {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s ease;
+  }
+
+  .room-host:hover {
+    color: #2980b9;
+  }
+
+  .room-title {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+
+  .room-link {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .room-link:hover {
+    color: #34495e;
+  }
+
+  .room-topic {
+    font-size: 0.9em;
+    color: #7f8c8d;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #eaeaea;
+    margin-top: 20px;
+  }
+</style>

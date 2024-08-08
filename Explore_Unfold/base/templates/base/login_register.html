@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if page == 'login' %}Login{% else %}Register{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="login-data">
+        <form method="POST" action="">
+          {% csrf_token %} {% if page == 'login' %}
+          <h2>Login</h2>
+          <label>User Name:</label>
+          <input type="text" name="username" placeholder="USER NAME" />
+          <label>Password:</label>
+          <input type="password" name="password" placeholder="PASSWORD" />
+          <input type="submit" value="Login" />
+          <p>New User ?? <a href="{% url 'register' %}">Sign up</a></p>
+          {% else %}
+          <h2>Register</h2>
+          {{ form.as_p }}
+          <input type="submit" value="Register" />
+          <p>I have an account <a href="{% url 'login' %}">login</a></p>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
